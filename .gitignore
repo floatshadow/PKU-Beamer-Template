@@ -29,6 +29,7 @@
 *.run.xml
 
 ## Build tool auxiliary files:
+out/
 *.fdb_latexmk
 *.synctex
 *.synctex.gz

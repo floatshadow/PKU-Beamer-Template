@@ -10,14 +10,14 @@
 %    or (at your option) any later version.
 %
 % This work is derived from the original `zju` package (by 光头哥).
-% The modified version is identified by the name '[zju_beamer]'
+% The modified version is identified by the name '[pkubeamer]'
 % to avoid confusion with the original work.
 
 % ============================================================
 % 1. 宏包导入与基础设置
 % ============================================================
 
-\ProvidesPackage{zju_beamer}  
+\ProvidesPackage{pkubeamer}
 
 % --- 字体与中文支持 ---
 \usefonttheme[onlymath]{serif}                % 数学公式使用衬线字体
@@ -98,10 +98,17 @@
 \setbeamertemplate{background}{\pgfuseimage{bg}}                                   % 应用背景
 
 % --- 结构色设置 ---
-\usecolortheme[RGB={0,63,136}]{structure} % 主色调
+\definecolor{PKURed}{RGB}{154,0,0}
+\definecolor{PKUDark}{RGB}{34,24,21}
+
+\usecolortheme[RGB={154,0,0}]{structure} % 主色调：北大红
+\setbeamercolor{section in head/foot}{fg=white,bg=PKUDark}
+\setbeamercolor{subsection in head/foot}{fg=white,bg=PKURed}
+\setbeamercolor{author in head/foot}{fg=white,bg=PKUDark}
+\setbeamercolor{title in head/foot}{fg=white,bg=PKURed}
 
 % --- 顶部颜色与渐变说明 ---
-% 1. 结构色通过 \usecolortheme[RGB={0,63,136}]{structure} 定义
+% 1. 结构色通过 \usecolortheme[RGB={154,0,0}]{structure} 定义
 % 2. frametitle 区域颜色由下两行决定
 \setbeamercolor{frametitle}{parent=subsection in head/foot}
 \setbeamercolor{frametitle right}{parent=section in head/foot}
@@ -110,8 +117,8 @@
   color(0pt)=(frametitle.bg); 
   color(\paperwidth)=(frametitle right.bg)}
 % 4. 如需自定义顶部颜色，可用如下命令：
-%    \setbeamercolor{frametitle}{bg=red!80!black,fg=white}
-%    \setbeamercolor{frametitle right}{bg=blue!80!black,fg=white}
+%    \setbeamercolor{frametitle}{bg=PKURed,fg=white}
+%    \setbeamercolor{frametitle right}{bg=PKUDark,fg=white}
 
 % --- 顶部渐变阴影 ---
 \AtBeginDocument{
@@ -125,7 +132,7 @@
 % ============================================================
 
 % --- 页脚 footline: 作者 | 日期 | 标题 | 页码 ---
-\defbeamertemplate*{footline}{zju theme}{%
+\defbeamertemplate*{footline}{pkubeamer theme}{%
   \leavevmode%
   \hbox{%
     \begin{beamercolorbox}[wd=.35\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
@@ -144,20 +151,25 @@
 }
 
 % --- headline 区域颜色切换命令 ---
-\newcommand{\zjusectioncolor}[1]{%
-  \def\zju@headlinecolor{section in head/foot}% 默认黑色
-  \edef\zju@tmpa{#1}%
-  \ifx\zju@tmpa\@empty\else
-    \ifx\zju@tmpa\zju@blue
-      \def\zju@headlinecolor{subsection in head/foot}%
+\newcommand{\pkusectioncolor}[1]{%
+  \def\pku@headlinecolor{section in head/foot}% 默认深色
+  \edef\pku@tmpa{#1}%
+  \ifx\pku@tmpa\@empty\else
+    \ifx\pku@tmpa\pku@red
+      \def\pku@headlinecolor{subsection in head/foot}%
+    \fi
+    \ifx\pku@tmpa\pku@blue
+      \def\pku@headlinecolor{subsection in head/foot}%
     \fi
   \fi
 }
-\def\zju@blue{blue}
+\let\zjusectioncolor\pkusectioncolor
+\def\pku@red{red}
+\def\pku@blue{blue}
 % 默认 headline 颜色
 
 % --- 页眉 headline ---
-\defbeamertemplate*{headline}{zju theme}{%
+\defbeamertemplate*{headline}{pkubeamer theme}{%
   \leavevmode%
   \@tempdimb=6.4375ex%
   %\multiply\@tempdimb by\beamer@sectionmax%
@@ -172,17 +184,17 @@
     %% \begin{beamercolorbox}[wd=.4\paperwidth,ht=\@tempdimb,center]{subsection in head/foot}%
     %%   \vbox to\@tempdimb{\vfil\textbf{\footnotesize\insertshortinstitute~~}\vfil}%
     %% \end{beamercolorbox}%
-    \begin{beamercolorbox}[wd=.135\paperwidth,ht=\@tempdimb,center]{\zju@headlinecolor} % 可切换颜色
+    \begin{beamercolorbox}[wd=.135\paperwidth,ht=\@tempdimb,center]{\pku@headlinecolor} % 可切换颜色
       \vbox to\@tempdimb{\vfil\pgfuseimage{title_logo}\vfil}%
     \end{beamercolorbox}%
-    \begin{beamercolorbox}[wd=.065\paperwidth,ht=\@tempdimb,center]{\zju@headlinecolor} % 可切换颜色
+    \begin{beamercolorbox}[wd=.065\paperwidth,ht=\@tempdimb,center]{\pku@headlinecolor} % 可切换颜色
       \vbox to\@tempdimb{\vfil\insertlogo\vfil\vfil}%
     \end{beamercolorbox}%
   \fi%
 }
 
 % --- frametitle 样式 ---
-\defbeamertemplate*{frametitle}{zju theme}{%
+\defbeamertemplate*{frametitle}{pkubeamer theme}{%
   \nointerlineskip%
   %\vskip-2pt%
   \hbox{\leavevmode
@@ -233,10 +245,10 @@
     backgroundcolor=\color{white}, 
     basicstyle=\ttfamily,                         % 字体族
     breaklines=true,                              % 自动换行
-    keywordstyle=\bfseries\color{NavyBlue},       % 关键字样式
+    keywordstyle=\bfseries\color{PKURed!85!black}, % 关键字样式
     morekeywords={},                              % 额外关键字
     emph={self},                                  % 强调词
-    emphstyle=\bfseries\color{Rhodamine},         % 强调词样式
+    emphstyle=\bfseries\color{PKURed},            % 强调词样式
     commentstyle=\itshape\color{black!50!white},  % 注释样式
     stringstyle=\bfseries\color{PineGreen!90!black}, % 字符串样式
     columns=flexible,
